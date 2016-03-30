@@ -1,0 +1,19 @@
+{
+  "name": "worldbuilder",
+  "version": "1.0.0",
+  "description": "Cloud based Worldbuilding Service",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/sazzer/worldbuilder-js.git"
+  },
+  "author": "Graham Cox <graham@grahamcox.co.uk>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sazzer/worldbuilder-js/issues"
+  },
+  "homepage": "https://github.com/sazzer/worldbuilder-js#readme"
+}
