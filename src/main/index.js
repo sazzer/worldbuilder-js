@@ -1,5 +1,8 @@
-const name = 'Worldbuilder';
+import {startServer} from './server';
 
-const output = (n) => console.log(`Hello, ${n}`);
-
-output(name);
+startServer()
+    .then((server) => {
+        console.log('Started server');
+    }).catch((err) => {
+        console.log(`Error starting server: ${err}`);
+    });
