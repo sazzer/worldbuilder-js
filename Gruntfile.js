@@ -22,6 +22,17 @@ module.exports = function(grunt) {
             }
         },
         clean: ['target'],
+        copy: {
+            options: {
+                
+            },
+            static: {
+                expand: true,
+                cwd: 'src/static',
+                src: ['**'],
+                dest: 'target/static'
+            }
+        },
         eslint: {
             options: {
                 configFile: 'eslintrc'
@@ -71,6 +82,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('build', ['eslint:main', 'jscpd:main', 'babel:main', 'mochaTest']);
+    grunt.registerTask('build', ['eslint:main', 'jscpd:main', 'babel:main', 'mochaTest', 'copy:static']);
     grunt.registerTask('start', ['build', 'execute:main']);
 };

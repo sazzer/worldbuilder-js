@@ -102,6 +102,17 @@ export function startServer() {
             }
         }, {
             plugin: 'hapi-to'
+        }, {
+            plugin: {
+                register: 'electricfence',
+                options: {
+                    path: '../static',
+                    url: '/',
+                    listing: true,
+                    index: false,
+                    cache: 3600000
+                }
+            }
         }]
     };
 
