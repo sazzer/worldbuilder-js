@@ -1,8 +1,11 @@
 import {startServer} from './server';
+import {createLogger} from './log';
+
+const LOG = createLogger('main');
 
 startServer()
     .then((server) => {
-        console.log('Started server');
+        LOG.info('Started server');
     }).catch((err) => {
-        console.log(`Error starting server: ${err}`);
+        LOG.error(`Error starting server: ${err}`);
     });
