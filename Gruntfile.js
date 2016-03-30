@@ -66,6 +66,20 @@ module.exports = function(grunt) {
                 }
             }
         },
+        sass: {
+            options: {
+                sourcemap: 'auto',
+                unixNewlines: true,
+                check: false,
+                style: 'nested',
+                cacheLocation: 'target/sass-cache'
+            },
+            main: {
+                files: {
+                    'target/static/css/main.css': 'src/scss/main.scss'
+                }
+            }
+        },
         watch: {
             build: {
                 files: [
@@ -82,6 +96,6 @@ module.exports = function(grunt) {
         }
     });
 
-    grunt.registerTask('build', ['eslint:main', 'jscpd:main', 'babel:main', 'mochaTest', 'copy:static']);
+    grunt.registerTask('build', ['eslint:main', 'jscpd:main', 'babel:main', 'mochaTest', 'copy:static', 'sass:main']);
     grunt.registerTask('start', ['build', 'execute:main']);
 };
