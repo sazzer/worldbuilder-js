@@ -42,6 +42,12 @@ module.exports = function(grunt) {
                     expand: true,
                     src: ['src/main/**/*.js']
                 }]
+            },
+            ui: {
+                files: [{
+                    expand: true,
+                    src: ['src/ui/**/*.js']
+                }]
             }
         },
         execute: {
@@ -52,6 +58,9 @@ module.exports = function(grunt) {
         jscpd: {
             main: {
                 path: 'src/main'
+            },
+            ui: {
+                path: 'src/ui'
             }
         },
         mochaTest: {
@@ -93,9 +102,45 @@ module.exports = function(grunt) {
                     atBegin: true
                 }
             }
+        },
+        webpack: {
+            ui: {
+                entry: {
+                    main: './src/ui/index.js'
+                },
+                output: {
+                    path: 'target/static/js',
+                    filename: '[name].js',
+                    sourceMapFilename: '[file].map'
+                },
+                module: {
+                    loaders: [
+                        {
+                            test: /\.jsx?$/,
+                            exclude: /(node_modules)/,
+                            loader: 'babel',
+                            query: {
+                                presets: [
+                                    'es2015'
+                                ]
+                            }
+                        }
+                    ]
+                },
+                stats: {
+                    colors: true
+                },
+                progress: true,
+                failOnError: true,
+                inline: false,
+                hot: false,
+                devtool: 'source-map'
+            }
         }
     });
 
-    grunt.registerTask('build', ['eslint:main', 'jscpd:main', 'babel:main', 'mochaTest', 'copy:static', 'sass:main']);
+    grunt.registerTask('build:main', ['eslint:main', 'jscpd:main', 'babel:main', 'mochaTest']);
+    grunt.registerTask('build:ui', ['eslint:ui', 'jscpd:ui', 'webpack:ui']);
+    grunt.registerTask('build', ['build:main', 'build:ui', 'copy:static', 'sass:main']);
     grunt.registerTask('start', ['build', 'execute:main']);
 };
