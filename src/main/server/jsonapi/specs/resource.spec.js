@@ -23,11 +23,11 @@ describe('Resource', function() {
             built.should.not.have.deep.property('data.relationships');
         });
     });
-    
+
     describe('With Links', function() {
         const resource = new Resource('users', 1);
         resource.addLink('self', '/a/b/c');
-        
+
         const built = resource.build();
         it('Should have data', function() {
             built.should.have.property('data').and.have.keys('type', 'id');
@@ -48,7 +48,7 @@ describe('Resource', function() {
             built.should.not.have.deep.property('data.relationships');
         });
     });
-    
+
     describe('With Attributes', function() {
         const resource = new Resource('users', 1);
         resource.addAttribute('name', 'Graham');
@@ -81,7 +81,7 @@ describe('Resource', function() {
     describe('With a Relationship', function() {
         const resource = new Resource('posts', 1);
         resource.addRelationship('owner', 'users', 5);
-        
+
         const built = resource.build();
         it('Should have data', function() {
             built.should.have.property('data').and.have.keys('type', 'id', 'relationships');

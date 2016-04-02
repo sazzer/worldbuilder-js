@@ -17,6 +17,9 @@ export const routes = {
             schema: Joi.object()
         },
         validate: {
+            params: {
+                world: Joi.string().required().description('The ID of the World to retrieve')
+            },
             failAction: 'error'
         },
         handler: (request, reply) => {
@@ -26,47 +29,18 @@ export const routes = {
                     world: worldId
                 }
             });
-            
+
             const resource = new Resource('worlds', worldId);
-            resource.addLink('self', selfUrl);
+            resource.setSelf(selfUrl);
             resource.addAttribute('name', 'Discworld');
             resource.addAttribute('version', 1);
             resource.addAttribute('created', '2016-03-30T07:23:08+00:00');
             resource.addAttribute('updated', '2016-03-30T07:23:08+00:00');
-            
+
             resource.addRelationship('owner', 'users', '123456');
             resource.getRelationship('owner').addLink('self', `${selfUrl}/relationships/owner`);
             resource.getRelationship('owner').addLink('related', `${selfUrl}/owner`);
             reply(resource.build());
-            /*
-            reply({
-                links: {
-                    self: selfUrl
-                },
-                data: {
-                    type: 'worlds',
-                    id: worldId,
-                    attributes: {
-                        name: 'Discworld',
-                        version: 1,
-                        created: '2016-03-30T07:23:08+00:00',
-                        updated: '2016-03-30T07:23:08+00:00'
-                    },
-                    relationships: {
-                        owner: {
-                            links: {
-                                self: `${selfUrl}/relationships/owner`,
-                                related: `${selfUrl}/owner`
-                            },
-                            data: {
-                                type: 'users',
-                                id: '123456'
-                            }
-                        }
-                    }
-                }
-            });
-            */
         }
     }
 };
