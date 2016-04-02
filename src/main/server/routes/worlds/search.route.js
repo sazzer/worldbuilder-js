@@ -48,7 +48,14 @@ export const routes = {
                 }
             }];
 
-            reply(worldsSerializer(request).serialize(worlds));
+            reply(worldsSerializer(request).serialize(worlds, {
+                meta: {
+                    page: {
+                        offset: 0,
+                        total: 10
+                    }
+                }
+            }));
         }
     }
 };

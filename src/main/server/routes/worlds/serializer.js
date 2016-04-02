@@ -72,6 +72,9 @@ export function worldsSerializer(request) {
         topLevelLinks: {
             self: (data) => {
                 return request.to('searchWorlds');
+            },
+            next: (data) => {
+                return request.to('searchWorlds') + '?page[cursor]=eyJjb2xsZWN0aW9uIjoid29ybGRzIiwib2Zmc2V0IjoxMH0K&page[size]=10';
             }
         },
         dataLinks: {
