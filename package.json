@@ -61,6 +61,7 @@
     "hapi-to": "^1.0.0",
     "inert": "^3.2.0",
     "joi": "^8.0.5",
+    "jsonapi-serializer": "^3.0.1",
     "vision": "^4.0.1"
   }
 }

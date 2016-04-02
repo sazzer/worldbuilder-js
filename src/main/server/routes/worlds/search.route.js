@@ -1,7 +1,6 @@
 import Boom from 'boom';
 import Joi from 'joi';
-import {Resource} from '../../jsonapi/resource';
-import {Resources} from '../../jsonapi/resources';
+import {worldSerializer} from './serializer';
 
 export const routes = {
     method: 'GET',
@@ -21,26 +20,25 @@ export const routes = {
             failAction: 'error'
         },
         handler: (request, reply) => {
-            const resources = new Resources('worlds');
-            resources.setSelf(request.to('searchWorlds'));
-
-            const resource1 = resources.addResource('abcdef');
-            const selfUrl = request.to('getWorld', {
-                params: {
-                    world: 'abcdef'
+            reply(worldSerializer(request, true).serialize([{
+                id: 'abcdef',
+                name: 'Discworld',
+                version: 1,
+                created: '2016-03-30T07:23:08+00:00',
+                updated: '2016-03-30T07:23:08+00:00',
+                owner: {
+                    id: 12345
                 }
-            });
-
-            resource1.setSelf(selfUrl);
-            resource1.addAttribute('name', 'Discworld');
-            resource1.addAttribute('version', 1);
-            resource1.addAttribute('created', '2016-03-30T07:23:08+00:00');
-            resource1.addAttribute('updated', '2016-03-30T07:23:08+00:00');
-
-            resource1.addRelationship('owner', 'users', '123456');
-            resource1.getRelationship('owner').addLink('self', `${selfUrl}/relationships/owner`);
-            resource1.getRelationship('owner').addLink('related', `${selfUrl}/owner`);
-            reply(resources.build());
+            }, {
+                id: 'ghijkl',
+                name: 'Middle Earth',
+                version: 1,
+                created: '2011-01-01T07:23:08+00:00',
+                updated: '2011-01-01T07:23:08+00:00',
+                owner: {
+                    id: 54321
+                }
+            }]));
         }
     }
 };

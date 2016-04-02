@@ -1,6 +1,6 @@
 import Boom from 'boom';
 import Joi from 'joi';
-import {Resource} from '../../jsonapi/resource';
+import {worldSerializer} from './serializer';
 
 export const routes = {
     method: 'GET',
@@ -24,23 +24,17 @@ export const routes = {
         },
         handler: (request, reply) => {
             const worldId = request.params.world;
-            const selfUrl = request.to('getWorld', {
-                params: {
-                    world: worldId
+
+            reply(worldSerializer(request, false).serialize({
+                id: worldId,
+                name: 'Discworld',
+                version: 1,
+                created: '2016-03-30T07:23:08+00:00',
+                updated: '2016-03-30T07:23:08+00:00',
+                owner: {
+                    id: 12345
                 }
-            });
-
-            const resource = new Resource('worlds', worldId);
-            resource.setSelf(selfUrl);
-            resource.addAttribute('name', 'Discworld');
-            resource.addAttribute('version', 1);
-            resource.addAttribute('created', '2016-03-30T07:23:08+00:00');
-            resource.addAttribute('updated', '2016-03-30T07:23:08+00:00');
-
-            resource.addRelationship('owner', 'users', '123456');
-            resource.getRelationship('owner').addLink('self', `${selfUrl}/relationships/owner`);
-            resource.getRelationship('owner').addLink('related', `${selfUrl}/owner`);
-            reply(resource.build());
+            }));
         }
     }
 };
