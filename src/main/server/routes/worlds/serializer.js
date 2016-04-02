@@ -1,26 +1,47 @@
 import {Serializer as JSONAPISerializer} from 'jsonapi-serializer';
 
+const worldAttributes = [
+    'name',
+    'version',
+    'created',
+    'updated',
+    'owner'
+];
+
+const ownerAttributes = [
+    'name',
+    'version',
+    'created',
+    'updated'
+];
+
+const includeOwner = true;
+
 /**
- * Construct the serializer to use for representing worlds
- * @param {Request} request The request Object
- * @param {Boolean} collection True if we are representing a collection of worlds. False if it's just one
+ * Construct the serializer for individual World records
+ * @param {Request} request the incoming request
+ * @return {JSONAPISerializer} The serializer
  */
-export function worldSerializer(request, collection) {
-    const options = {
-        attributes: [
-            'name',
-            'version',
-            'created',
-            'updated',
-            'owner'
-        ],
+export function worldSerializer(request) {
+    return new JSONAPISerializer('worlds', {
+        topLevelLinks: {
+            self: (data) => {
+                return request.to('getWorld', {
+                    params: {
+                        world: data.id
+                    }
+                });
+            }
+        },
+        attributes: worldAttributes,
         typeForAttribute: (attribute) => {
             return (attribute === 'owner') ? 'users' : attribute;
         },
         owner: {
             type: 'users',
             ref: 'id',
-            included: false,
+            included: includeOwner,
+            attributes: ownerAttributes,
             relationshipLinks: {
                 self: (data) => {
                     return request.to('getWorld', {
@@ -38,28 +59,55 @@ export function worldSerializer(request, collection) {
                 }
             }
         }
-    };
+    });
+}
 
-    const resourceLinks = {
-        self: (data) => {
-            return request.to('getWorld', {
-                params: {
-                    world: data.id
-                }
-            });
-        }
-    };
-
-    if (collection) {
-        options.dataLinks = resourceLinks;
-        options.topLevelLinks = {
-            self: () => {
+/**
+ * Construct the serializer for a collection of World records
+ * @param {Request} request the incoming request
+ * @return {JSONAPISerializer} The serializer
+ */
+export function worldsSerializer(request) {
+    return new JSONAPISerializer('worlds', {
+        topLevelLinks: {
+            self: (data) => {
                 return request.to('searchWorlds');
             }
-        };
-    } else {
-        options.topLevelLinks = resourceLinks;
-    }
-
-    return new JSONAPISerializer('worlds', options);
+        },
+        dataLinks: {
+            self: (data) => {
+                return request.to('getWorld', {
+                    params: {
+                        world: data.id
+                    }
+                });
+            }
+        },
+        attributes: worldAttributes,
+        typeForAttribute: (attribute) => {
+            return (attribute === 'owner') ? 'users' : attribute;
+        },
+        owner: {
+            type: 'users',
+            ref: 'id',
+            included: includeOwner,
+            attributes: ownerAttributes,
+            relationshipLinks: {
+                self: (data) => {
+                    return request.to('getWorld', {
+                        params: {
+                            world: data.id
+                        }
+                    }) + '/relationships/owner'
+                },
+                related: (data) => {
+                    return request.to('getWorld', {
+                        params: {
+                            world: data.id
+                        }
+                    }) + '/owner'
+                }
+            }
+        }
+    });
 }

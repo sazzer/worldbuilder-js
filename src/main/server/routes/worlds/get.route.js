@@ -24,17 +24,22 @@ export const routes = {
         },
         handler: (request, reply) => {
             const worldId = request.params.world;
-
-            reply(worldSerializer(request, false).serialize({
+            const world = {
                 id: worldId,
                 name: 'Discworld',
                 version: 1,
                 created: '2016-03-30T07:23:08+00:00',
                 updated: '2016-03-30T07:23:08+00:00',
                 owner: {
-                    id: 12345
+                    id: 12345,
+                    name: 'Terry Pratchett',
+                    version: 1,
+                    created: '2016-03-30T07:23:08+00:00',
+                    updated: '2016-03-30T07:23:08+00:00'
                 }
-            }));
+            };
+
+            reply(worldSerializer(request).serialize(world));
         }
     }
 };
