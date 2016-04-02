@@ -1,0 +1,10 @@
+{
+  "links": {
+    "self": "http://localhost:3000/api/worlds/abcdef/relationships/owner",
+    "related": "http://localhost:3000/api/worlds/abcdef/owner"
+  },
+  "data": {
+    "type": "users",
+    "id": "12345"
+  }
+}

@@ -1,0 +1,64 @@
+{
+  "links": {
+    "self": "http://localhost:3000/api/worlds",
+    "next": "http://localhost:3000/api/worlds?page[cursor]=eyJjb2xsZWN0aW9uIjoid29ybGRzIiwib2Zmc2V0IjoxMH0K&page[size]=10"
+  },
+  "meta": {
+    "page": {
+      "offset": 0,
+      "total": 10
+    }
+  },
+  "data": [
+    {
+      "type": "worlds",
+      "id": "abcdef",
+      "links": {
+        "self": "http://localhost:3000/api/worlds/abcdef"
+      },
+      "attributes": {
+        "name": "Discworld",
+        "version": 1,
+        "created": "2016-03-30T07:23:08+00:00",
+        "updated": "2016-03-30T07:23:08+00:00"
+      },
+      "relationships": {
+        "owner": {
+          "data": {
+            "type": "users",
+            "id": "12345"
+          },
+          "links": {
+            "self": "http://localhost:3000/api/worlds/abcdef/relationships/owner",
+            "related": "http://localhost:3000/api/worlds/abcdef/owner"
+          }
+        }
+      }
+    },
+    {
+      "type": "worlds",
+      "id": "ghijkl",
+      "links": {
+        "self": "http://localhost:3000/api/worlds/ghijkl"
+      },
+      "attributes": {
+        "name": "Middle Earth",
+        "version": 1,
+        "created": "2011-01-01T07:23:08+00:00",
+        "updated": "2011-01-01T07:23:08+00:00"
+      },
+      "relationships": {
+        "owner": {
+          "data": {
+            "type": "users",
+            "id": "54321"
+          },
+          "links": {
+            "self": "http://localhost:3000/api/worlds/ghijkl/relationships/owner",
+            "related": "http://localhost:3000/api/worlds/ghijkl/owner"
+          }
+        }
+      }
+    }
+  ]
+}

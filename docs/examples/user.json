@@ -1,0 +1,23 @@
+{
+  "links": {
+    "self": "http://localhost:3000/api/users/12345"
+  },
+  "data": {
+    "type": "users",
+    "id": "12345",
+    "attributes": {
+      "name": "Terry Pratchett",
+      "email": "terry@pratchett.co.uk",
+      "version": 1,
+      "created": "2016-03-30T07:23:08+00:00",
+      "updated": "2016-03-30T07:23:08+00:00"
+    },
+    "relationships": {
+      "worlds": {
+        "links": {
+          "related": "http://localhost:3000/api/users/12345/worlds"
+        }
+      }
+    }
+  }
+}
