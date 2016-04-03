@@ -1,6 +1,6 @@
 import Boom from 'boom';
 import Joi from 'joi';
-import {worldsSerializer} from './serializer';
+import {WorldsSerializer} from './serializer';
 
 export const routes = {
     method: 'GET',
@@ -48,7 +48,8 @@ export const routes = {
                 }
             }];
 
-            reply(worldsSerializer(request).serialize(worlds, {
+            reply(WorldsSerializer.serialize(worlds, {
+                request,
                 meta: {
                     page: {
                         offset: 0,

@@ -1,6 +1,6 @@
 import Boom from 'boom';
 import Joi from 'joi';
-import {worldSerializer} from './serializer';
+import {WorldSerializer} from './serializer';
 
 export const routes = {
     method: 'GET',
@@ -39,7 +39,9 @@ export const routes = {
                 }
             };
 
-            reply(worldSerializer(request).serialize(world));
+            reply(WorldSerializer.serialize(world, {
+                request
+            }));
         }
     }
 };
