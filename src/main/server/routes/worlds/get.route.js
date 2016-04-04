@@ -14,7 +14,27 @@ export const routes = {
             options: {
 
             },
-            schema: Joi.object()
+            schema: Joi.object().keys({
+                name: Joi.string().required().description('The name of the world'),
+                version: Joi.number().integer().required().description('The version number of the record'),
+                created: Joi.date().iso().required().description('The timestamp of when the world was created'),
+                updated: Joi.date().iso().description('The timestamp of when the world was last updated'),
+                _links: Joi.object().keys({
+                    self: Joi.object().keys({
+                        href: Joi.string().uri().required()
+                    })
+                }),
+                _embedded: Joi.object().keys({
+                    owner: Joi.object().keys({
+                        name: Joi.string().required().description('The name of the owner of this world'),
+                        _links: Joi.object().keys({
+                            self: Joi.object().keys({
+                                href: Joi.string().uri().required()
+                            })
+                        })
+                    })
+                })
+            })
         },
         validate: {
             params: {
@@ -24,24 +44,29 @@ export const routes = {
         },
         handler: (request, reply) => {
             const worldId = request.params.world;
-            const world = {
-                id: worldId,
+            reply({
                 name: 'Discworld',
                 version: 1,
                 created: '2016-03-30T07:23:08+00:00',
                 updated: '2016-03-30T07:23:08+00:00',
-                owner: {
-                    id: 12345,
-                    name: 'Terry Pratchett',
-                    version: 1,
-                    created: '2016-03-30T07:23:08+00:00',
-                    updated: '2016-03-30T07:23:08+00:00'
+                _links: {
+                    self: {
+                        href: request.to('getWorld', {
+                            params: {world: worldId}
+                        })
+                    }
+                },
+                _embedded: {
+                    owner: {
+                        name: 'Terry Pratchett',
+                        _links: {
+                            self: {
+                                href: 'http://localhost:3000/api/users/12345'
+                            }
+                        }
+                    }
                 }
-            };
-
-            reply(WorldSerializer.serialize(world, {
-                request
-            }));
+            });
         }
     }
 };
